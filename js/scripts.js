@@ -23,9 +23,8 @@ $(function() {
             for (let movie of movies) {
                 let id = movie.id;
                 var poster = apiImageUrl + 'w300' + movie.poster_path;
-                console.log(poster);
 
-                movieCardHtml += `<div class="col-sm-3 movie-card">`;
+                movieCardHtml += `<div class="col-sm-3 movie-card" id="${id}">`;
                     movieCardHtml += `<img src="${poster}">`;
                     movieCardHtml += `<div class="trailer-btn-wrapper">`
                         movieCardHtml += `<button class="btn btn-primary trailer-btn" id="${id}" data-toggle="modal" data-target=".trailer-modal">View trailer</button>`;
