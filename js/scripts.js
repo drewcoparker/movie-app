@@ -14,54 +14,45 @@ $(function() {
         var nowPlayingHTML = '';
 
         for (let movie of movies) {
-            var id = movie.id;
-            var youTubeUrl = 'https://youtu.be/';
-            var trailerUrl = `${apiBaseUrl}movie/${id}/videos?api_key=${movieKey}&language=en-US`;
+            let id = movie.id;
 
-            $.getJSON(trailerUrl, function(trailerData) {
-                var poster = apiImageUrl + 'w600' + movie.poster_path;
-                var trailer = youTubeUrl + trailerData.results[0].key;
+            // var trailerUrl = `${apiBaseUrl}movie/${id}/videos?api_key=${movieKey}&language=en-US`;
+            var poster = apiImageUrl + 'w600' + movie.poster_path;
 
-                // Build the html with clickable image posters that direct to youtube trailer
-                nowPlayingHTML += `<div class="col-sm-3 movie-card">`;
-                    nowPlayingHTML += `<a href="${trailer}"><img src="${poster}"></a>`;
-                    nowPlayingHTML += `<div class="trailer-btn-wrapper">`
-                        nowPlayingHTML += `<button class="btn btn-primary trailer-btn" id="${id}">View trailer</button>`;
-                    nowPlayingHTML += '</div>';
+            nowPlayingHTML += `<div class="col-sm-3 movie-card">`;
+                nowPlayingHTML += `<img src="${poster}">`;
+                nowPlayingHTML += `<div class="trailer-btn-wrapper">`
+                    nowPlayingHTML += `<button class="btn btn-primary trailer-btn" id="${id}" data-toggle="modal" data-target=".trailer-modal">View trailer</button>`;
                 nowPlayingHTML += '</div>';
+            nowPlayingHTML += '</div>';
 
-                $('#movie-grid').html(nowPlayingHTML);
+        }
+        $('#movie-grid').html(nowPlayingHTML);
 
-                $('.trailer-btn').click(function() {
-                    console.log(this);
-                });
+        $('.trailer-btn').click(function() {
+            modalHTML = '';
+            let id = $(this).attr('id');
+            // var youTubeUrl = 'https://youtu.be/';
+            var youTubeUrl = "https://www.youtube.com/embed/"
+            var trailerUrl = `${apiBaseUrl}movie/${id}/videos?api_key=${movieKey}&language=en-US`;
+            $.getJSON(trailerUrl, function(trailerData) {
+                var trailer = youTubeUrl + trailerData.results[0].key;
+                var iFrameTrailer = `<iframe width="560" height="315" src="${trailer}" frameborder="0"></iframe>`;
+                $('.modal-content').html(iFrameTrailer);
 
             });
-        }
+        });
     });
 
 
-
-    // var trailer = youTubeUrl + videoData.results[0].key;
-    // nowPlayingHTML += `<div class="col-sm-3" id="${id}">`;
-    //     nowPlayingHTML += `<a href="${trailer}"><img src="${poster}"></a>`;
-    // nowPlayingHTML += '</div>';
-
-    // var trailerPromise = $.getJSON(trailerUrl);
-    // var trailerLink = trailerPromise.done(function(videoData) {
-    //     var trailer = youTubeUrl + videoData.results[0].key;
-    // });
-    //
-    // var trailerUrl = `${apiBaseUrl}movie/${id}/videos?api_key=${movieKey}&language=en-US`;
-
-    // $('.movie-form').submit(function() {
-    //     event.preventDefault();
-    //     var movieSearched = $('.movie-input').val();
-    //     console.log(movieSearched);
-    //     var movieQuery = apiSearch + movieSearched;
-    //     console.log(movieQuery);
-    //     $.getJSON(movieQuery, function(movieData) {
-    //         console.log(movieData);
-    //     });
-    // });
+    $('.movie-form').submit(function() {
+        event.preventDefault();
+        var movieSearched = $('.movie-input').val();
+        console.log(movieSearched);
+        var movieQuery = apiSearch + movieSearched;
+        console.log(movieQuery);
+        $.getJSON(movieQuery, function(movieData) {
+            console.log(movieData);
+        });
+    });
 });
