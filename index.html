@@ -12,34 +12,33 @@
     </head>
     <body>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-8 col-sm-offset-2 search-wrapper">
-                <form class="movie-form">
-                    <div class="form-group">
-                        <label>Enter movie</label>
-                        <input type="text" class="form-control" id="movie-input" placeholder="Search for a movie">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
         <div class="container">
             <div class="row">
-                <div class="col-sm-12" id="movie-grid">
+                <div class="col-sm-8 col-sm-offset-2 search-wrapper">
+                    <form class="movie-search">
+                        <div class="form-group">
+                            <label>Enter movie</label>
+                            <input type="text" class="form-control" id="movie-input" placeholder="Search for a movie">
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="search-btn">Small modal</button>
+                    </form>
                 </div>
             </div>
         </div>
 
-        <!-- <div class="modal fade trailer-modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12" id="movie-grid">
+                    </div>
                 </div>
             </div>
-        </div> -->
 
+            <div class="modal trailer-modal" tabindex="-1" role="dialog">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    </div>
+                  </div>
+            </div>
     </body>
 </html>

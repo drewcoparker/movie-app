@@ -4,7 +4,8 @@
 }
 
 body {
-    background-color: #f1f1f1;
+    background-color: #cacaca;
+
 }
 
 #movie-input {
@@ -16,15 +17,17 @@ body {
     text-align: center;
     /*position: relative;*/
     background-color: #fff;
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.4);
+    box-shadow: 1px 2px 5px rgba(0,0,0,0.4);
 }
 
 .movie-card img {
     width: 100%;
-    /*height: 75%;*/
-    padding: 10px;
+    /*height: 430px;*/
+    /*padding: 10px;*/
+    margin-top: 15px;
+    border-radius: 1px;
     background-color: #fff;
-    /*box-shadow: 0 1px 1px 0 rgba(0,0,0,0.4);*/
+    box-shadow: 1px 2px 2px rgba(0,0,0,0.4);
 }
 
 .trailer-btn {
@@ -32,4 +35,10 @@ body {
     bottom: 15px;
     right: 100px;*/
     margin: 5px;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.8);
+}
+
+.modal-content {
+    width: 600px;
+    height: 355px;
 }

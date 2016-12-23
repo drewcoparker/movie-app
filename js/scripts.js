@@ -54,8 +54,7 @@ $(function() {
 
         var searchTerm = $('#movie-input').val();
         var searchQueryUrl = `${apiBaseUrl}search/movie?api_key=${movieKey}&${encoding}&query=${searchTerm}`;
-        console.log(searchTerm);
-        console.log(searchQueryUrl);
+        
         generateCards(searchQueryUrl);
     });
 
