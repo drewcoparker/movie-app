@@ -24,10 +24,14 @@ $(function() {
                 let id = movie.id;
                 var poster = apiImageUrl + 'w300' + movie.poster_path;
 
-                movieCardHtml += `<movie-card" id="${id}">`;
+                movieCardHtml += `<div class="movie-card" id="${id}">`;
                     movieCardHtml += `<img src="${poster}">`;
-                    movieCardHtml += `<div class="lower-card">`
-                        movieCardHtml += `<button class="trailer-btn" id="${id}">View trailer</button>`;
+                    movieCardHtml += `<div class="lower-card">`;
+                        movieCardHtml += `<div class="lower-card-left"><span>Rating</span></div>`;
+                        movieCardHtml += `<div class="lower-card-middle">`;
+                            movieCardHtml += `<button class="trailer-btn" id="${id}">View trailer</button>`;
+                        movieCardHtml += `</div>`;
+                        movieCardHtml += `<div class="lower-card-right"><span>Runtime</span></div>`;
                     movieCardHtml += `</div>`;
                 movieCardHtml += `</div>`;
             }

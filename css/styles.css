@@ -1,5 +1,8 @@
 body {
     background-color: #cacaca;
+    font-size: 16px;
+    font-family: 'Amiri', serif;
+    font-family: 'Titillium Web', sans-serif;
 
 }
 
@@ -39,25 +42,39 @@ header {
 }
 
 .movie-cards-wrapper {
-    
+    /*text-align: center;*/
+    position: relative;
+    margin: 20px 5%;
+
+    /*margin-top: */
 }
 
 .movie-card {
     margin: 10px;
-    text-align: center;
-    /*position: relative;*/
+    display: inline-block;
     background-color: #fff;
     box-shadow: 1px 2px 5px rgba(0,0,0,0.4);
 }
 
 .movie-card img {
-    width: 100%;
-    /*height: 430px;*/
-    /*padding: 10px;*/
-    margin-top: 15px;
+    margin: 15px;
     border-radius: 1px;
     background-color: #fff;
     box-shadow: 1px 2px 2px rgba(0,0,0,0.4);
+}
+
+.lower-card {
+    margin: 0 15px;
+}
+
+.lower-card-left {
+    width: 33.33%;
+    display: inline-block;
+}
+
+.lower-card-middle {
+    width: 33.33%;
+    display: inline-block;
 }
 
 .trailer-btn {
@@ -65,7 +82,14 @@ header {
     bottom: 15px;
     right: 100px;*/
     margin: 5px;
+    width: 10em;
     box-shadow: 0 1px 1px 0 rgba(0,0,0,0.8);
+}
+
+.lower-card-right {
+    width: 33.33%;
+    display: inline-block;
+    text-align: right;
 }
 
 .modal-content {
