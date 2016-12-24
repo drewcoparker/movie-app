@@ -1,15 +1,45 @@
-.search-wrapper {
-    margin-top: 50px;
-    margin-bottom: 20px;
-}
-
 body {
     background-color: #cacaca;
 
 }
 
-#movie-input {
-    max-width: 500px;
+header {
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.left-header-section {
+
+}
+
+.seach-form {
+
+}
+
+.main-input-label {
+
+}
+
+.input-and-button {
+
+}
+
+.main-input {
+    width: 500px;
+    border-radius: 0;
+    box-shadow: 1px 2px 5px rgba(0,0,0,0.4);
+}
+
+.main-search-btn {
+
+}
+
+.left-header-section {
+
+}
+
+.movie-cards-wrapper {
+    
 }
 
 .movie-card {
@@ -41,4 +71,5 @@ body {
 .modal-content {
     width: 600px;
     height: 355px;
+    background-color: rgba(0, 0, 0, 0);
 }

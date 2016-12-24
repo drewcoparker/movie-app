@@ -3,42 +3,36 @@
     <head>
         <meta charset="utf-8">
         <title>Movie App</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="css/styles.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script type="text/javascript" src="js/config.js"></script>
         <script type="text/javascript" src="js/scripts.js"></script>
     </head>
     <body>
+        <!-- Not bad, but can you do it without bootstrap? -->
 
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-8 col-sm-offset-2 search-wrapper">
-                    <form class="movie-search">
-                        <div class="form-group">
-                            <label>Enter movie</label>
-                            <input type="text" class="form-control" id="movie-input" placeholder="Search for a movie">
-                        </div>
-                        <button type="submit" class="btn btn-primary" id="search-btn">Small modal</button>
-                    </form>
+        <!-- The header section. Will contain a search form at least. -->
+        <header>
+            <!-- A left header section for brand art and menu -->
+            <div class="left-header-section"></div>
+            <form class="search-form">
+                <div class="input-and-button">
+                    <label class="main-input-label">Search the Movie Database</label>
+                    <input type="text" class="main-input" placeholder="Movies, production companies, etc.">
+                    <button type="submit" class=" button main-search-btn">Go</button>
                 </div>
-            </div>
+            </form>
+            <!-- A right header section for future needs -->
+            <div class="right-header-section"></div>
+        </header>
+
+        <!-- Main wrapper to display the query results as movie posters on white cards-->
+        <div class="movie-cards-wrapper"></div>
+
+        <!-- The modal. It will fire with an embedded iframe video of a movie ID -->
+        <div class="trailer-modal">
+            <div class="modal-content"></div>
         </div>
 
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12" id="movie-grid">
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal trailer-modal" tabindex="-1" role="dialog">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                    </div>
-                  </div>
-            </div>
     </body>
 </html>
