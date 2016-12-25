@@ -1,15 +1,32 @@
 $(function() {
     var apiBaseUrl = 'https://api.themoviedb.org/3/';
-    var encoding = '&language=en-US&page=1&include_adult=false';
+    var encoding = 'language=en-US&page=1&include_adult=false';
     var apiImageUrl = 'https://image.tmdb.org/t/p/';
+    var append = `append_to_response=credits,release_dates`;
 
 
-    const nowPlayingUrl = `${apiBaseUrl}movie/now_playing?api_key=${movieKey}&${encoding}`;
-    const upComingUrl = `${apiBaseUrl}movie/upcoming?api_key=${movieKey}&${encoding}`;
+    const nowPlayingUrl = `${apiBaseUrl}movie/now_playing?api_key=${tmdbKey}&${encoding}`;
+    const upComingUrl = `${apiBaseUrl}movie/upcoming?api_key=${tmdbKey}&${encoding}&page=2`;
 
     // This function calls first so we have movies displayed before the user
     // has searched.
-    generateCards(upComingUrl);
+    // var url = "https://api.themoviedb.org/3/movie/360592?api_key=1f809315a3a8c0a1456dd83615b4d783&language=en-US&page=1&include_adult=false";
+    generateCards(nowPlayingUrl);
+
+    function getTmdbData(queryUrl) {
+        $.getJSON(queryUrl, function(gottenData) {
+            var results = gottenData.results;
+            var returnedObjects;
+            for (let object in results) {
+                let id = results.id;
+                // Nested API call to get more specific movie ID data
+                var detailsQueryUrl = `${apiBaseUrl}movie/${id}/api_key=${tmdbKey}${encoding}${append}`;
+                $.getJSON(asdf, function(detailsQueryUrl) {
+                    var poster = apiImageUrl + 'w300' + movie.poster_path;
+                });
+            }
+        });
+    }
 
     // The main query function: makes an API call to tmdb, gets movies, and
     // creates html of cards featuring posters and a view trailer button.
@@ -22,26 +39,49 @@ $(function() {
             // Constructs the movie card html for every movie in the API call results.
             for (let movie of movies) {
                 let id = movie.id;
-                var poster = apiImageUrl + 'w300' + movie.poster_path;
+                var detailsQueryUrl = `${apiBaseUrl}movie/${id}?api_key=${tmdbKey}&${encoding}&${append}`;
+                $.getJSON(detailsQueryUrl, function(detailedMovieData) {
+                    var runtime = detailedMovieData.runtime;
+                    var poster = apiImageUrl + 'w300' + movie.poster_path;
 
-                movieCardHtml += `<div class="movie-card" id="${id}">`;
-                    movieCardHtml += `<img src="${poster}">`;
-                    movieCardHtml += `<div class="lower-card">`;
-                        movieCardHtml += `<div class="lower-card-left"><span>Rating</span></div>`;
-                        movieCardHtml += `<div class="lower-card-middle">`;
-                            movieCardHtml += `<button class="trailer-btn" id="${id}">View trailer</button>`;
+                    // MPAA ratings are bundled in the release_date object.
+                    // Ratings differ by country, so it is neccessary to find
+                    // the US first and then the certification (rating).
+                    var releaseResults = detailedMovieData.release_dates.results;
+                    var mpaa = '';
+                    for (result of releaseResults) {
+                        if (result.iso_3166_1 === "US") {
+                            var certifications = result.release_dates;
+                            for (let cert of certifications) {
+                                if ((cert.type === 3) && (cert.certification !== '')) {
+                                    mpaa = cert.certification;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    movieCardHtml += `<div class="movie-card" id="${id}">`;
+                        movieCardHtml += `<img src="${poster}">`;
+                        movieCardHtml += `<div class="lower-card">`;
+                            movieCardHtml += `<div class="lower-card-left"><span>Rated ${mpaa}</span></div>`;
+                            movieCardHtml += `<div class="lower-card-middle">`;
+                                movieCardHtml += `<button class="trailer-btn" id="${id}">View trailer</button>`;
+                            movieCardHtml += `</div>`;
+                            movieCardHtml += `<div class="lower-card-right"><span>${runtime} mins</span></div>`;
                         movieCardHtml += `</div>`;
-                        movieCardHtml += `<div class="lower-card-right"><span>Runtime</span></div>`;
                     movieCardHtml += `</div>`;
-                movieCardHtml += `</div>`;
+                $('.movie-cards-wrapper').html(movieCardHtml);
+                });
+
             }
-            $('.movie-cards-wrapper').html(movieCardHtml);
+
 
             // The view trailer button click event spawns an additional API call to retreieve the youtube link.
             $('.trailer-btn').click(function() {
                 modalHTML = '';
                 let id = $(this).attr('id');
-                var trailerUrl = `${apiBaseUrl}movie/${id}/videos?api_key=${movieKey}&language=en-US`;
+                var trailerUrl = `${apiBaseUrl}movie/${id}/videos?api_key=${tmdbKey}&language=en-US`;
                 $.getJSON(trailerUrl, function(trailerData) {
                     var youTubeUrl = trailerData.results[0].key;
                     // Build the modal body html with a youtube iframe of the trailer.
@@ -62,7 +102,7 @@ $(function() {
         event.preventDefault();
 
         var searchTerm = $('#movie-input').val();
-        var searchQueryUrl = `${apiBaseUrl}search/movie?api_key=${movieKey}&${encoding}&query=${searchTerm}`;
+        var searchQueryUrl = `${apiBaseUrl}search/movie?api_key=${tmdbKey}&${encoding}&query=${searchTerm}`;
 
         generateCards(searchQueryUrl);
     });
