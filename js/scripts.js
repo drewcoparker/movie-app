@@ -5,28 +5,12 @@ $(function() {
     var append = `append_to_response=credits,release_dates`;
 
 
-    const nowPlayingUrl = `${apiBaseUrl}movie/now_playing?api_key=${tmdbKey}&${encoding}`;
+    const nowPlayingUrl = `${apiBaseUrl}movie/now_playing?api_key=${tmdbKey}&${encoding}&page=2`;
     const upComingUrl = `${apiBaseUrl}movie/upcoming?api_key=${tmdbKey}&${encoding}&page=2`;
 
-    // This function calls first so we have movies displayed before the user
-    // has searched.
-    // var url = "https://api.themoviedb.org/3/movie/360592?api_key=1f809315a3a8c0a1456dd83615b4d783&language=en-US&page=1&include_adult=false";
+    // The generateCards function calls with nowPlaying first so we can have movies
+    // displayed before the user has searched.
     generateCards(nowPlayingUrl);
-
-    function getTmdbData(queryUrl) {
-        $.getJSON(queryUrl, function(gottenData) {
-            var results = gottenData.results;
-            var returnedObjects;
-            for (let object in results) {
-                let id = results.id;
-                // Nested API call to get more specific movie ID data
-                var detailsQueryUrl = `${apiBaseUrl}movie/${id}/api_key=${tmdbKey}${encoding}${append}`;
-                $.getJSON(asdf, function(detailsQueryUrl) {
-                    var poster = apiImageUrl + 'w300' + movie.poster_path;
-                });
-            }
-        });
-    }
 
     // The main query function: makes an API call to tmdb, gets movies, and
     // creates html of cards featuring posters and a view trailer button.
@@ -48,53 +32,71 @@ $(function() {
                     // Ratings differ by country, so it is neccessary to find
                     // the US first and then the certification (rating).
                     var releaseResults = detailedMovieData.release_dates.results;
-                    var mpaa = '';
-                    for (result of releaseResults) {
+                    var mpaa = 'Not Rated';
+                    for (let result of releaseResults) {
                         if (result.iso_3166_1 === "US") {
                             var certifications = result.release_dates;
                             for (let cert of certifications) {
-                                if ((cert.type === 3) && (cert.certification !== '')) {
-                                    mpaa = cert.certification;
+                                if (cert.certification !== '') {
+                                    mpaa = `Rated ${cert.certification}`;
                                     break;
                                 }
                             }
                         }
                     }
 
+                    // Find the director among the crew.
+                    var crewResults = detailedMovieData.credits.crew;
+                    var director = '';
+                    for (let result of crewResults) {
+                        if (result.job === "Director") {
+                            director = result.name;
+                            break;
+                        }
+                    }
+
+                    // Build HTML cards containing the poster, details, and view
+                    // trailer button for each movie returned.
                     movieCardHtml += `<div class="movie-card" id="${id}">`;
                         movieCardHtml += `<img src="${poster}">`;
                         movieCardHtml += `<div class="lower-card">`;
-                            movieCardHtml += `<div class="lower-card-left"><span>Rated ${mpaa}</span></div>`;
+                            movieCardHtml += `<div class="lower-card-left"><span>${mpaa}</span></div>`;
                             movieCardHtml += `<div class="lower-card-middle">`;
                                 movieCardHtml += `<button class="trailer-btn" id="${id}">View trailer</button>`;
                             movieCardHtml += `</div>`;
-                            movieCardHtml += `<div class="lower-card-right"><span>${runtime} mins</span></div>`;
+                            movieCardHtml += `<div class="lower-card-right"><span>${runtime} Mins</span></div>`;
                         movieCardHtml += `</div>`;
                     movieCardHtml += `</div>`;
-                $('.movie-cards-wrapper').html(movieCardHtml);
-                });
+                    $('.movie-cards-wrapper').html(movieCardHtml);
 
-            }
-
-
-            // The view trailer button click event spawns an additional API call to retreieve the youtube link.
-            $('.trailer-btn').click(function() {
-                modalHTML = '';
-                let id = $(this).attr('id');
-                var trailerUrl = `${apiBaseUrl}movie/${id}/videos?api_key=${tmdbKey}&language=en-US`;
-                $.getJSON(trailerUrl, function(trailerData) {
-                    var youTubeUrl = trailerData.results[0].key;
-                    // Build the modal body html with a youtube iframe of the trailer.
-                    var trailer = `https://www.youtube.com/embed/${youTubeUrl}?autoplay=1`;
-                    var iFrameTrailer = `<iframe class="trailer-modal" width="600" height="355" src="${trailer}" frameborder="0"></iframe>`;
-                    $('.modal-content').html(iFrameTrailer);
-                    // Clears video when modal is dismissed.
-                    $('.trailer-modal').on('hidden.bs.modal', function() {
-                        $('.modal-content').html('');
+                    // The view trailer button click event spawns an additional
+                    // API call to retreieve the youtube link. The trailer will
+                    // be in an iframe that acts like a modal.
+                    $('.trailer-btn').click(function() {
+                        modalHTML = '';
+                        let id = $(this).attr('id');
+                        var trailerUrl = `${apiBaseUrl}movie/${id}/videos?api_key=${tmdbKey}`;
+                        $.getJSON(trailerUrl, function(trailerData) {
+                            var youTubeUrl = trailerData.results[0].key;
+                            // Build the modal body html with a youtube iframe of the trailer.
+                            var trailer = `https://www.youtube.com/embed/${youTubeUrl}?autoplay=1`;
+                            var iFrameTrailer = `<iframe class="trailer-modal" id="${id}" width="600" height="355" src="${trailer}"></iframe>`;
+                            $('.modal-content').html(iFrameTrailer);
+                            // Clears video when modal is dismissed.
+                            $('.trailer-modal').on('hidden.bs.modal', function() {
+                                $('.modal-content').html('');
+                            });
+                        // Closes the API call for videos
+                        });
+                    // Closes view trailer click event
                     });
+                // Closes inner API call for movie details
                 });
-            });
+            // Closes the movies for loop
+            }
+        // Closes the outer API call for a bundle of movies
         });
+    // Closes generateCards function
     }
 
     // The main search controller.
