@@ -74,18 +74,23 @@ $(function() {
                     // be in an iframe that acts like a modal.
                     $('.trailer-btn').click(function() {
                         modalHTML = '';
+                        $('.dimmer').css({
+                            "visibility": "visible"
+
+                        });
+
                         let id = $(this).attr('id');
                         var trailerUrl = `${apiBaseUrl}movie/${id}/videos?api_key=${tmdbKey}`;
                         $.getJSON(trailerUrl, function(trailerData) {
                             var youTubeUrl = trailerData.results[0].key;
                             // Build the modal body html with a youtube iframe of the trailer.
                             var trailer = `https://www.youtube.com/embed/${youTubeUrl}?autoplay=1`;
-                            var iFrameTrailer = `<iframe class="trailer-modal" id="${id}" width="600" height="355" src="${trailer}"></iframe>`;
-                            $('.modal-content').html(iFrameTrailer);
+                            var iFrameTrailer = `<iframe id="${id}" width="600" height="355" src="${trailer}"></iframe>`;
+                            // $('.trailer-modal').html(iFrameTrailer);
                             // Clears video when modal is dismissed.
-                            $('.trailer-modal').on('hidden.bs.modal', function() {
-                                $('.modal-content').html('');
-                            });
+                            // $('.trailer-modal').on('hidden.bs.modal', function() {
+                            //     $('.modal-content').html('');
+                            // });
                         // Closes the API call for videos
                         });
                     // Closes view trailer click event
