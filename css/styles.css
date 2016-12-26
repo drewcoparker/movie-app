@@ -1,8 +1,7 @@
 body {
     background-color: #cacaca;
     font-size: 16px;
-    font-family: 'Amiri', serif;
-    font-family: 'Titillium Web', sans-serif;
+    font-family: 'Roboto', sans-serif;
     position: relative;
 
 }
@@ -94,18 +93,36 @@ header {
 }
 
 .trailer-modal {
-    display: none;
-    position: fixed;
-    top: 80px;
+    visibility: hidden;
+    /*position: fixed;*/
+    /*z-index: 999;*/
+    /*top: 80px;
     left: 80px;
     width: 600px;
     height: 355px;
     background-color: rgba(0, 0, 0, .3);
-    box-shadow: 1px 1px 50px 5px rgba(0,0,0,0.5);
+    box-shadow: 1px 1px 50px 5px rgba(1,1,1,0.5);*/
 
 }
 
+.modal-off {
+    visibility: hidden;
+    /*transition: */
+}
 
+.modal-on {
+    visibility: visible;
+    position: fixed;
+    z-index: 999;
+    top: 20px;
+    left: calc(50% - 300px);
+    width: 600px;
+    height: 355px;
+    background-color: rgba(0, 0, 0, .3);
+    box-shadow: 1px 1px 50px 5px rgba(130,130,130,0.5);
+    transform: translate(0, 20%);
+    transition: transform .3s ease-in;
+}
 
 .dimmer-off {
     visibility: hidden;
@@ -122,7 +139,7 @@ header {
     right: 0;
     background-color: #111;
     opacity: .9;
-    transition: background-color 1s, opacity 1s;
+    transition: background-color .5s, opacity .5s;
 }
 
 /*.modal-content {

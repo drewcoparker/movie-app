@@ -16,6 +16,7 @@ $(function() {
     // creates html of cards featuring posters and a view trailer button.
     function generateCards(queryUrl) {
         // The main API call to tmdb.
+        console.log(queryUrl);
         $.getJSON(queryUrl, function(movieData) {
             var movies = movieData.results;
             var movieCardHtml = '';
@@ -68,33 +69,6 @@ $(function() {
                         movieCardHtml += `</div>`;
                     movieCardHtml += `</div>`;
                     $('.movie-cards-wrapper').html(movieCardHtml);
-
-                    // The view trailer button click event spawns an additional
-                    // API call to retreieve the youtube link. The trailer will
-                    // be in an iframe that acts like a modal.
-                    $('.trailer-btn').click(function() {
-                        modalHTML = '';
-                        $('.dimmer-off').toggleClass('dimmer-off dimmer-on');
-                        $('.dimmer-on').click(function() {
-                            $(this).toggleClass('dimmer-on dimmer-off');
-                        })
-
-                        let id = $(this).attr('id');
-                        var trailerUrl = `${apiBaseUrl}movie/${id}/videos?api_key=${tmdbKey}`;
-                        $.getJSON(trailerUrl, function(trailerData) {
-                            var youTubeUrl = trailerData.results[0].key;
-                            // Build the modal body html with a youtube iframe of the trailer.
-                            var trailer = `https://www.youtube.com/embed/${youTubeUrl}?autoplay=1`;
-                            var iFrameTrailer = `<iframe id="${id}" width="600" height="355" src="${trailer}"></iframe>`;
-                            // $('.trailer-modal').html(iFrameTrailer);
-                            // Clears video when modal is dismissed.
-                            // $('.trailer-modal').on('hidden.bs.modal', function() {
-                            //     $('.modal-content').html('');
-                            // });
-                        // Closes the API call for videos
-                        });
-                    // Closes view trailer click event
-                    });
                 // Closes inner API call for movie details
                 });
             // Closes the movies for loop
@@ -104,11 +78,38 @@ $(function() {
     // Closes generateCards function
     }
 
+    $('.movie-cards-wrapper').on('click', '.trailer-btn', function() {
+        modalHTML = '';
+
+        let id = $(this).attr('id');
+        console.log(id);
+        var trailerUrl = `${apiBaseUrl}movie/${id}/videos?api_key=${tmdbKey}`;
+        $.getJSON(trailerUrl, function(trailerData) {
+            var youTubeUrl = trailerData.results[0].key;
+            // Build the modal body html with a youtube iframe of the trailer.
+            var trailer = `https://www.youtube.com/embed/${youTubeUrl}?autoplay=1`;
+            var iFrameTrailer = `<iframe id="${id}" width="600" height="355" src="${trailer}"></iframe>`;
+
+            $('.dimmer-off').toggleClass('dimmer-off dimmer-on');
+
+            $('.modal-off').toggleClass('modal-off modal-on');
+            // Clears video when modal is dismissed.
+            $('.modal-on').html(iFrameTrailer);
+            $('.dimmer-on').click(function() {
+                $('.modal-on').html('');
+                $('.modal-on').toggleClass('modal-on modal-off');
+                $(this).toggleClass('dimmer-on dimmer-off');
+            })
+        // Closes the API call for videos
+        });
+    // Closes view trailer click event
+    });
+
     // The main search controller.
-    $('.movie-search').submit(function() {
+    $('.search-form').submit(function() {
         event.preventDefault();
 
-        var searchTerm = $('#movie-input').val();
+        var searchTerm = $('.main-input').val();
         var searchQueryUrl = `${apiBaseUrl}search/movie?api_key=${tmdbKey}&${encoding}&query=${searchTerm}`;
 
         generateCards(searchQueryUrl);
