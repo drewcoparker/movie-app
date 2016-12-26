@@ -74,10 +74,10 @@ $(function() {
                     // be in an iframe that acts like a modal.
                     $('.trailer-btn').click(function() {
                         modalHTML = '';
-                        $('.dimmer').css({
-                            "visibility": "visible"
-
-                        });
+                        $('.dimmer-off').toggleClass('dimmer-off dimmer-on');
+                        $('.dimmer-on').click(function() {
+                            $(this).toggleClass('dimmer-on dimmer-off');
+                        })
 
                         let id = $(this).attr('id');
                         var trailerUrl = `${apiBaseUrl}movie/${id}/videos?api_key=${tmdbKey}`;

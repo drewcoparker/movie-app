@@ -105,22 +105,25 @@ header {
 
 }
 
-.dimmer {
+
+
+.dimmer-off {
     visibility: hidden;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.dimmer-on {
+    visibility: visible;
     position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #000;
-    opacity: 0.7;
-    transition: visibility 2s ease;
+    background-color: #111;
+    opacity: .9;
+    transition: background-color 1s, opacity 1s;
 }
-
-/*.dimmer-change {
-    background-color: #000;
-    opacity: 0.7;
-}*/
 
 /*.modal-content {
     width: 600px;
