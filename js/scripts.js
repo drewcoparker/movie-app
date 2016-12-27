@@ -33,13 +33,13 @@ $(function() {
                     // Ratings differ by country, so it is neccessary to find
                     // the US first and then the certification (rating).
                     var releaseResults = detailedMovieData.release_dates.results;
-                    var mpaa = 'Not Rated';
+                    var mpaa = 'NR';
                     for (let result of releaseResults) {
                         if (result.iso_3166_1 === "US") {
                             var certifications = result.release_dates;
                             for (let cert of certifications) {
                                 if (cert.certification !== '') {
-                                    mpaa = `Rated ${cert.certification}`;
+                                    mpaa = cert.certification;
                                     break;
                                 }
                             }
@@ -61,11 +61,11 @@ $(function() {
                     movieCardHtml += `<div class="movie-card" id="${id}">`;
                         movieCardHtml += `<img src="${poster}">`;
                         movieCardHtml += `<div class="lower-card">`;
-                            movieCardHtml += `<div class="lower-card-left"><span>${mpaa}</span></div>`;
+                            movieCardHtml += `<div class="lower-card-left"><span>${mpaa}</span><hr></div>`;
                             movieCardHtml += `<div class="lower-card-middle">`;
                                 movieCardHtml += `<button class="trailer-btn" id="${id}">View trailer</button>`;
                             movieCardHtml += `</div>`;
-                            movieCardHtml += `<div class="lower-card-right"><span>${runtime} Mins</span></div>`;
+                            movieCardHtml += `<div class="lower-card-right"><span>${runtime} Mins</span><hr></div>`;
                         movieCardHtml += `</div>`;
                     movieCardHtml += `</div>`;
                     $('.movie-cards-wrapper').html(movieCardHtml);

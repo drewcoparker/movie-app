@@ -1,5 +1,5 @@
 body {
-    background-color: #cacaca;
+    background-color: #F1F1F1;
     font-size: 16px;
     font-family: 'Roboto', sans-serif;
     position: relative;
@@ -64,30 +64,46 @@ header {
 }
 
 .lower-card {
-    margin: 0 15px;
+    margin: 0 15px 5px 15px;
 }
 
 .lower-card-left {
-    width: 33.33%;
+    /*background-color: #007c00;*/
+    font-weight: bold;
+    height: 100%;
+    width: 25%;
     display: inline-block;
 }
 
 .lower-card-middle {
-    width: 33.33%;
+    width: 50%;
+    text-align: center;
     display: inline-block;
 }
 
 .trailer-btn {
-    /*position: absolute;
-    bottom: 15px;
-    right: 100px;*/
+    font-size: 14px;
+    font-weight: bold;
+    color: #FEFEFE;
+    background-color: #CC181E;
     margin: 5px;
-    width: 10em;
-    box-shadow: 0 1px 1px 0 rgba(0,0,0,0.8);
+    text-align: center;
+    height: 2em;
+    width: 6.5em;
+    border-radius: 3px;
+    cursor: pointer;
+    opacity: 0.9;
+    /*transition: */
+    /*box-shadow: 0 1px 1px 0 rgba(0,0,0,0.8);*/
+}
+
+.trailer-btn:hover {
+    opacity: 1;
+    box-shadow: 0 0 2px 0 rgba(130,130,130,0.8);
 }
 
 .lower-card-right {
-    width: 33.33%;
+    width: 25%;
     display: inline-block;
     text-align: right;
 }
