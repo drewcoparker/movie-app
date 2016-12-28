@@ -10,13 +10,15 @@ $(function() {
 
     // The generateCards function calls with nowPlaying first so we can have movies
     // displayed before the user has searched.
+    var count = 0;
     generateCards(nowPlayingUrl);
 
     // The main query function: makes an API call to tmdb, gets movies, and
     // creates html of cards featuring posters and a view trailer button.
     function generateCards(queryUrl) {
         // The main API call to tmdb.
-        console.log(queryUrl);
+        count +=1;
+        console.log(`function engaged ${count} time(s).`);
         $.getJSON(queryUrl, function(movieData) {
             var movies = movieData.results;
             var movieCardHtml = '';
@@ -69,15 +71,20 @@ $(function() {
                         movieCardHtml += `</div>`;
                     movieCardHtml += `</div>`;
                     $('.movie-cards-wrapper').html(movieCardHtml);
-                // Closes inner API call for movie details
-                });
-            // Closes the movies for loop
-            }
-        // Closes the outer API call for a bundle of movies
-        });
-    // Closes generateCards function
-    }
 
+                }); // Closes inner API call for movie details
+
+            } // Closes the movies for loop
+
+        }); // Closes the outer API call for a bundle of movies
+
+    } // Closes generateCards function
+
+
+    // Event listeners:
+    // The view trailer click event. This event triggers an api search for the
+    // youtube video key of the most recent trailer. It is then showcased in
+    // modal fashion upon a dimmed background.
     $('.movie-cards-wrapper').on('click', '.trailer-btn', function() {
         modalHTML = '';
 
@@ -90,20 +97,39 @@ $(function() {
             var trailer = `https://www.youtube.com/embed/${youTubeUrl}?autoplay=1`;
             var iFrameTrailer = `<iframe id="${id}" width="600" height="355" src="${trailer}"></iframe>`;
 
-            $('.dimmer-off').toggleClass('dimmer-off dimmer-on');
+            // $('#dimmer').toggleClass('dimmer-off dimmer-on');
+            toggleModal();
 
-            $('.modal-off').toggleClass('modal-off modal-on');
+            // $('.modal-off').toggleClass('modal-off modal-on');
             // Clears video when modal is dismissed.
-            $('.modal-on').html(iFrameTrailer);
-            $('.dimmer-on').click(function() {
-                $('.modal-on').html('');
-                $('.modal-on').toggleClass('modal-on modal-off');
-                $(this).toggleClass('dimmer-on dimmer-off');
-            })
+            // $('.modal-on').html(iFrameTrailer);
+            // $('#dimmer').click(function() {
+                // $('.modal-on').html('');
+                // $('.modal-on').toggleClass('modal-on modal-off');
+                // $('#dimmer').toggleClass('dimmer-on dimmer-off');
+            // })
         // Closes the API call for videos
         });
     // Closes view trailer click event
     });
+
+    function toggleModal() {
+        var $dimmer = $('#dimmer');
+        var $modal = $('#modal');
+        if ($('#dimmer').hasClass('off')) {
+                $('#dimmer').toggleClass('off dimmer-on');
+        } else if ($('#dimmer').hasClass('dimmer-on')) {
+            $('#dimmer').toggleClass('dimmer-on dimmer-off');
+            $('#dimmer').toggleClass('off');
+        }
+    }
+
+    $('body').on('change', '#dimmer', function() {
+        $('#dimmer').on('click', function() {
+            toggleModal();
+        })
+    });
+
 
     // The main search controller.
     $('.search-form').submit(function() {

@@ -165,21 +165,33 @@ header {
 }
 
 .dimmer-off {
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 1s;
-}
-
-.dimmer-on {
     visibility: visible;
     position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: #111;
-    opacity: .9;
+    opacity: 0;
+    background-color: #f1f1f1;
+    /*transition: opacity .5s;*/
     transition: background-color .5s, opacity .5s;
+}
+
+.off {
+    visibility: hidden;
+}
+
+.dimmer-on {
+    visibility: visible;
+    position: fixed;
+    cursor: pointer;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #111;
+    opacity: .8;
+    transition: opacity .3s, background-color .3s;
 }
 
 /*.modal-content {
