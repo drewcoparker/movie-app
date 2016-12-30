@@ -5,7 +5,7 @@ $(function() {
     var append = `append_to_response=credits,release_dates`;
 
 
-    const nowPlayingUrl = `${apiBaseUrl}movie/now_playing?api_key=${tmdbKey}&${encoding}&page=2`;
+    const nowPlayingUrl = `${apiBaseUrl}movie/now_playing?api_key=${tmdbKey}&${encoding}&page=1`;
     const upComingUrl = `${apiBaseUrl}movie/upcoming?api_key=${tmdbKey}&${encoding}&page=2`;
 
     // The generateCards function calls with nowPlaying first so we can have movies
@@ -29,7 +29,7 @@ $(function() {
                 var detailsQueryUrl = `${apiBaseUrl}movie/${id}?api_key=${tmdbKey}&${encoding}&${append}`;
                 $.getJSON(detailsQueryUrl, function(detailedMovieData) {
                     var runtime = detailedMovieData.runtime;
-                    var poster = apiImageUrl + 'w300' + movie.poster_path;
+                    var poster = apiImageUrl + 'w370_and_h556_bestv2' + movie.poster_path;
 
                     // MPAA ratings are bundled in the release_date object.
                     // Ratings differ by country, so it is neccessary to find
@@ -97,37 +97,19 @@ $(function() {
             var trailer = `https://www.youtube.com/embed/${youTubeUrl}?autoplay=1`;
             var iFrameTrailer = `<iframe id="${id}" width="600" height="355" src="${trailer}"></iframe>`;
 
-            // $('#dimmer').toggleClass('dimmer-off dimmer-on');
-            toggleModal();
+            $('#dimmer').toggleClass('dimmer-off dimmer-on');
 
-            // $('.modal-off').toggleClass('modal-off modal-on');
-            // Clears video when modal is dismissed.
-            // $('.modal-on').html(iFrameTrailer);
-            // $('#dimmer').click(function() {
-                // $('.modal-on').html('');
-                // $('.modal-on').toggleClass('modal-on modal-off');
-                // $('#dimmer').toggleClass('dimmer-on dimmer-off');
-            // })
+            $('#modal').toggleClass('modal-off modal-on');
+            $('#modal').html(iFrameTrailer);
+
+            $('#dimmer').click(function() {
+                $('#modal').html('');
+                $('#modal').toggleClass('modal-on modal-off');
+                $('#dimmer').toggleClass('dimmer-on dimmer-off');
+            })
         // Closes the API call for videos
         });
     // Closes view trailer click event
-    });
-
-    function toggleModal() {
-        var $dimmer = $('#dimmer');
-        var $modal = $('#modal');
-        if ($('#dimmer').hasClass('off')) {
-                $('#dimmer').toggleClass('off dimmer-on');
-        } else if ($('#dimmer').hasClass('dimmer-on')) {
-            $('#dimmer').toggleClass('dimmer-on dimmer-off');
-            $('#dimmer').toggleClass('off');
-        }
-    }
-
-    $('body').on('change', '#dimmer', function() {
-        $('#dimmer').on('click', function() {
-            toggleModal();
-        })
     });
 
 

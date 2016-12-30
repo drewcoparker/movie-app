@@ -82,6 +82,7 @@ header {
 }
 
 .movie-card img {
+    height: 360px;
     margin: 15px;
     border-radius: 1px;
     background-color: #fff;
@@ -132,7 +133,7 @@ header {
     text-align: right;
 }
 
-.trailer-modal {
+.modal-off {
     visibility: hidden;
     /*position: fixed;*/
     /*z-index: 999;*/
@@ -145,10 +146,6 @@ header {
 
 }
 
-.modal-off {
-    visibility: hidden;
-    /*transition: */
-}
 
 .modal-on {
     visibility: visible;
@@ -165,16 +162,7 @@ header {
 }
 
 .dimmer-off {
-    visibility: visible;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    opacity: 0;
-    background-color: #f1f1f1;
-    /*transition: opacity .5s;*/
-    transition: background-color .5s, opacity .5s;
+    visibility: hidden;
 }
 
 .off {
