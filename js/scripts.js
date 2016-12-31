@@ -4,14 +4,14 @@ $(function() {
     var apiImageUrl = 'https://image.tmdb.org/t/p/';
     var append = `append_to_response=credits,release_dates`;
 
-
-    const nowPlayingUrl = `${apiBaseUrl}movie/now_playing?api_key=${tmdbKey}&${encoding}&page=1`;
-    const upComingUrl = `${apiBaseUrl}movie/upcoming?api_key=${tmdbKey}&${encoding}&page=2`;
+    var page = 1;
+    var nowPlayingUrl = `${apiBaseUrl}movie/now_playing?api_key=${tmdbKey}&${encoding}&page=`;
+    var upComingUrl = `${apiBaseUrl}movie/upcoming?api_key=${tmdbKey}&${encoding}&page=2`;
 
     // The generateCards function calls with nowPlaying first so we can have movies
     // displayed before the user has searched.
     var count = 0;
-    generateCards(nowPlayingUrl);
+    generateCards(nowPlayingUrl+page);
 
     // The main query function: makes an API call to tmdb, gets movies, and
     // creates html of cards featuring posters and a view trailer button.
@@ -29,49 +29,55 @@ $(function() {
                 var detailsQueryUrl = `${apiBaseUrl}movie/${id}?api_key=${tmdbKey}&${encoding}&${append}`;
                 $.getJSON(detailsQueryUrl, function(detailedMovieData) {
                     var runtime = detailedMovieData.runtime;
-                    var poster = apiImageUrl + 'w370_and_h556_bestv2' + movie.poster_path;
 
-                    // MPAA ratings are bundled in the release_date object.
-                    // Ratings differ by country, so it is neccessary to find
-                    // the US first and then the certification (rating).
-                    var releaseResults = detailedMovieData.release_dates.results;
-                    var mpaa = 'NR';
-                    for (let result of releaseResults) {
-                        if (result.iso_3166_1 === "US") {
-                            var certifications = result.release_dates;
-                            for (let cert of certifications) {
-                                if (cert.certification !== '') {
-                                    mpaa = cert.certification;
-                                    break;
+                    // Results with no runtimes are usually garbage to filter out.
+                    if (runtime === 0) {
+                        console.log("0 runtime");
+                    } else {
+
+                        var poster = apiImageUrl + 'w370_and_h556_bestv2' + movie.poster_path;
+
+                        // MPAA ratings are bundled in the release_date object.
+                        // Ratings differ by country, so it is neccessary to find
+                        // the US first and then the certification (rating).
+                        var releaseResults = detailedMovieData.release_dates.results;
+                        var mpaa = 'NR';
+                        for (let result of releaseResults) {
+                            if (result.iso_3166_1 === "US") {
+                                var certifications = result.release_dates;
+                                for (let cert of certifications) {
+                                    if (cert.certification !== '') {
+                                        mpaa = cert.certification;
+                                        break;
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    // Find the director among the crew.
-                    var crewResults = detailedMovieData.credits.crew;
-                    var director = '';
-                    for (let result of crewResults) {
-                        if (result.job === "Director") {
-                            director = result.name;
-                            break;
+                        // Find the director among the crew.
+                        var crewResults = detailedMovieData.credits.crew;
+                        var director = '';
+                        for (let result of crewResults) {
+                            if (result.job === "Director") {
+                                director = result.name;
+                                break;
+                            }
                         }
-                    }
 
-                    // Build HTML cards containing the poster, details, and view
-                    // trailer button for each movie returned.
-                    movieCardHtml += `<div class="movie-card" id="${id}">`;
-                        movieCardHtml += `<img src="${poster}">`;
-                        movieCardHtml += `<div class="lower-card">`;
-                            movieCardHtml += `<div class="lower-card-left"><span>${mpaa}</span><hr></div>`;
-                            movieCardHtml += `<div class="lower-card-middle">`;
-                                movieCardHtml += `<button class="trailer-btn" id="${id}">View trailer</button>`;
+                        // Build HTML cards containing the poster, details, and view
+                        // trailer button for each movie returned.
+                        movieCardHtml += `<div class="movie-card" id="${id}">`;
+                            movieCardHtml += `<img src="${poster}">`;
+                            movieCardHtml += `<div class="lower-card">`;
+                                movieCardHtml += `<div class="lower-card-left"><span>${mpaa}</span><hr></div>`;
+                                movieCardHtml += `<div class="lower-card-middle">`;
+                                    movieCardHtml += `<button class="trailer-btn" id="${id}">View trailer</button>`;
+                                movieCardHtml += `</div>`;
+                                movieCardHtml += `<div class="lower-card-right"><span>${runtime} Mins</span><hr></div>`;
                             movieCardHtml += `</div>`;
-                            movieCardHtml += `<div class="lower-card-right"><span>${runtime} Mins</span><hr></div>`;
                         movieCardHtml += `</div>`;
-                    movieCardHtml += `</div>`;
-                    $('.movie-cards-wrapper').html(movieCardHtml);
-
+                        $('.movie-cards-wrapper').html(movieCardHtml);
+                    } // Closes the while loop to check runtime > 0
                 }); // Closes inner API call for movie details
 
             } // Closes the movies for loop
@@ -121,6 +127,16 @@ $(function() {
         var searchQueryUrl = `${apiBaseUrl}search/movie?api_key=${tmdbKey}&${encoding}&query=${searchTerm}`;
         generateCards(searchQueryUrl);
     });
+
+    $(window).scroll(function() {
+        if ($(window).scrollTop() + $(window).height() === $(document).height()) {
+            // $('.reloader').html(`<img src="images/reload.gif">`);
+            page += 1;
+            console.log(nowPlayingUrl+page);
+            generateCards(nowPlayingUrl+page);
+        }
+        // console.log('scrolling');
+    })
 
 
 // Closes the doc ready function
