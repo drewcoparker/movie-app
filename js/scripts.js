@@ -114,12 +114,11 @@ $(function() {
 
 
     // The main search controller.
-    $('.search-form').submit(function() {
+    $('#main-search').submit(function() {
         event.preventDefault();
 
         var searchTerm = $('.main-input').val();
         var searchQueryUrl = `${apiBaseUrl}search/movie?api_key=${tmdbKey}&${encoding}&query=${searchTerm}`;
-
         generateCards(searchQueryUrl);
     });
 

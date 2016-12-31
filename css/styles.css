@@ -10,8 +10,9 @@ header {
     background-color: #fff;
     /*margin-top: 50px;*/
     height: 66px;
-    border-bottom: 1px solid rgba(0,0,0,0.2);
+    border-bottom: 1px solid #fff;
     margin-bottom: 20px;
+    box-shadow: 0px 1px 2px rgba(0,0,0,0.4);
 }
 
 .left-header-section {
@@ -41,24 +42,44 @@ header {
 .main-input {
     font-style: italic;
     height: 30px;
-    padding: 0;
-    width: calc(100% - 40px);
+    outline: none;
+    padding: 0 0 0 5px;
+    width: calc(100% - 50px);
     max-width: 650px;
     border-radius: 0;
     border: 1px solid #ccc;
     border-radius: 2px 0 0 2px;
-    /*box-shadow: inset 0px 0px 2px 0px rgba(0,0,0,0.4);*/
+    box-shadow: inset 0 0 1px 1px rgba(91,187,211,0.4);
 }
+
+.main-input:focus {
+    border: 1px solid rgba(91,187,211,0.8);
+    transition: all .2s;
+}
+
 
 .main-search-btn {
     float: right;
+    color: #333;
+    font-weight: bold;
     position: absolute;
-    width: 40px;
+    width: 50px;
     height: 32px;
+    background:
+    radial-gradient(
+      circle at 0 0,
+      #eee,
+      #ccc
+    );
     border-top: 1px solid #ccc;
     border-right: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     border-radius: 0 2px 2px 0;
+}
+
+.main-search-btn:hover {
+    color: #5bbbd3;
+    transition: all .2s;
 }
 
 .right-header-section {
@@ -90,6 +111,7 @@ header {
 }
 
 .lower-card {
+    font-size: 13px;
     margin: 0 15px 5px 15px;
 }
 
@@ -107,14 +129,14 @@ header {
 }
 
 .trailer-btn {
-    font-size: 14px;
+
     font-weight: bold;
     color: #FEFEFE;
     background-color: #CC181E;
     margin: 5px;
     text-align: center;
     height: 2em;
-    width: 6.5em;
+    width: 6.3em;
     border-radius: 3px;
     cursor: pointer;
     opacity: 0.9;
@@ -187,3 +209,8 @@ header {
     height: 355px;
     background-color: rgba(0, 0, 0, 0);
 }*/
+footer {
+    width: 100%;
+    height: 100px;
+    background-color: rgba(0, 0, 0, .9);
+}

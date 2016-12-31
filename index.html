@@ -20,14 +20,13 @@
             <div class="left-header-section"></div>
             <!-- A middle header section for the search form -->
             <div class="middle-header-section">
-                <form>
+                <form id="main-search">
                     <div class="search-wrapper">
                         <div class="seach-form">
                             <label class="main-input-label"></label>
-                            <input type="text" class="main-input" placeholder="Movies, production companies, etc.">
+                            <input type="text" class="main-input" placeholder="Find Movies">
                             <button type="submit" class="main-search-btn">Go</button>
                         </div>
-
                     </div>
                 </form>
             </div>
@@ -38,9 +37,13 @@
         <!-- Main wrapper to display the query results as movie posters on white cards-->
         <div class="movie-cards-wrapper"></div>
 
+        <!-- Pagination -->
+        <div class="pagination"></div>
+
         <!-- The modal. It will fire with an embedded iframe video of a movie ID -->
         <div id="modal" class="modal-off"></div>
         <!-- The dimmer effect for all elements as the modal is displayed. -->
         <div id="dimmer" class="dimmer-off"></div>
     </body>
+    <footer></footer>
 </html>
