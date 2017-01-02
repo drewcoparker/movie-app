@@ -128,15 +128,15 @@ $(function() {
         generateCards(searchQueryUrl);
     });
 
-    $(window).scroll(function() {
-        if ($(window).scrollTop() + $(window).height() === $(document).height()) {
-            // $('.reloader').html(`<img src="images/reload.gif">`);
-            page += 1;
-            console.log(nowPlayingUrl+page);
-            generateCards(nowPlayingUrl+page);
-        }
-        // console.log('scrolling');
-    })
+    // $(window).scroll(function() {
+    //     if ($(window).scrollTop() + $(window).height() === $(document).height()) {
+    //         // $('.reloader').html(`<img src="images/reload.gif">`);
+    //         page += 1;
+    //         console.log(nowPlayingUrl+page);
+    //         generateCards(nowPlayingUrl+page);
+    //     }
+    //     // console.log('scrolling');
+    // })
 
 
 // Closes the doc ready function

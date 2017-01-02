@@ -215,6 +215,23 @@ header {
     height: 80px;
 }
 
+.page-results {
+    text-align: center;
+}
+
+#load-more-btn {
+    font-weight: bold;
+    color: #FEFEFE;
+    background-color: #CC181E;
+    margin: 5px;
+    text-align: center;
+    height: 2em;
+    width: 6.3em;
+    border-radius: 3px;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
 footer {
     width: 100%;
     height: 100px;
